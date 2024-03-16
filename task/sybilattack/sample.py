@@ -28,12 +28,12 @@ for i in range(NUMBER_OF_COMMON_EXAMPLES, NUMBER_OF_EXAMPLES):
 
 
 for transfomation in TRANSFORMATIONS:
-    sybil_reset(transfomation, USERS[0])
-    sybil_reset(transfomation, USERS[1])
     for i in range(1, NUMBER_OF_CLUSTERS+1):
+        
         img_ids = np.concatenate([common_img_ids, other_imgs_ids[example_data[NUMBER_OF_COMMON_EXAMPLES:] == i]])
         user_id = USERS[0] if i==1 else USERS[1]
-        
+        sybil_reset(transfomation, user_id)
+
         while True:
             try:
                 embeds = sybil(img_ids, user_id, transfomation)
@@ -52,8 +52,6 @@ for transfomation in TRANSFORMATIONS:
         # add rows of not common images
         for id, embed in zip(img_ids[NUMBER_OF_COMMON_EXAMPLES:], other_embeds):
             df_other_embeds.loc[len(df_other_embeds), :] = [id, embed, i] 
-        
-        sybil_reset(transfomation, user_id)
 
 
     df_other_embeds.to_csv(f"other_embeddings_{transfomation}.csv", index=False)

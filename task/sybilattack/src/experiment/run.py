@@ -4,17 +4,16 @@ import numpy as np
 import pandas as pd
 import torch
 
-from ..taskdataset import TaskDataset
+from taskdataset import TaskDataset
 
 result = {}
 
-for i in range(0, 15):
+for i in range(15):
     if i == 0:
         data = pd.read_csv('data/common_embeddings_affine.csv')
-
         partial_result = {row.img_id: list(map(float, row.embedding[1:-1].split(", "))) for _, row in data.iterrows()}
     else:
-        os.system(f"python -m src.experiment.train --data.source_transform {i} --data.target_transform 13 --data.batch_size 512 --data.transform_type affine --optimizer AdamW --trainer.max_epoch 100")
+        os.system(f"/home/keren/EnsembleAIHackaton/.venv/bin/python -m src.experiment.train --data.source_transform {i} --data.target_transform 1 --data.batch_size 512 --data.transform_type affine --optimizer AdamW --trainer.max_epoch 100")
 
         partial_result = torch.load(f"data/{i}_affine.pt")
     result.update(partial_result)
