@@ -9,3 +9,5 @@ class SybilCLI(LightningCLI):
         parser.link_arguments(("data.source_transform", "data.target_transform"),
                               "model.same",
                               compute_fn=lambda source_transform, target_transform: source_transform == target_transform,)
+        parser.link_arguments("data.transform_type",
+                              "model.transform_type")

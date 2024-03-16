@@ -161,3 +161,4 @@ cython_debug/
 
 task/sybilattack/lightning_logs/*
 task/sybilattack/data/*_affine.pt
+task/sybilattack/data/*_binary.pt

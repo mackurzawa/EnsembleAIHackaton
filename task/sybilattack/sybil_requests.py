@@ -145,4 +145,4 @@ def model_stealing_reset():
 # model_stealing_submit("testing/example_submission.onnx")
 # model_stealing_reset()
 # model_stealing_reset()
-sybil_submit("affine", "data/affine.npz")
+sybil_submit("binary", "data/binary_attempt_2.npz")
