@@ -1,9 +1,12 @@
-def sybil_attack(ids: List[int], home_or_defense: str, binary_or_affine: str):
-    if home_or_defense not in ["home", "defense"] or binary_or_affine not in ["binary", "affine"]:
+import requests
+from typing import List
+
+def sybil_attack(ids: List[int], user: str, transformation: str):
+    if user not in ["home", "defense"] or transformation not in ["binary", "affine"]:
         raise "Invalid endpoint"
     
     SERVER_URL = "[paste server url here]"
-    ENDPOINT = f"/sybil/{binary_or_affine}/{home_or_defense}"
+    ENDPOINT = f"/sybil/{transformation}/{user}"
     URL = SERVER_URL + ENDPOINT
     
     TEAM_TOKEN = "[paste your team token here]"
