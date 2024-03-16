@@ -27,33 +27,34 @@ for i in range(NUMBER_OF_COMMON_EXAMPLES, NUMBER_OF_EXAMPLES):
     example_data[i] = i%14 + 1
 
 
-sybil_reset(TRANSFORMATIONS[1], USERS[0])
-sybil_reset(TRANSFORMATIONS[1], USERS[1])
-for i in range(1, NUMBER_OF_CLUSTERS+1):
-    img_ids = np.concatenate([common_img_ids, other_imgs_ids[example_data[NUMBER_OF_COMMON_EXAMPLES:] == i]])
-    user_id = USERS[0] if i % 2 == 1 else USERS[1]
-    
-    while True:
-        try:
-            embeds = sybil(img_ids, user_id, TRANSFORMATIONS[1])
-            break
-        except Exception as e:
-            time.sleep(0.5)
+for transfomation in TRANSFORMATIONS:
+    sybil_reset(transfomation, USERS[0])
+    sybil_reset(transfomation, USERS[1])
+    for i in range(1, NUMBER_OF_CLUSTERS+1):
+        img_ids = np.concatenate([common_img_ids, other_imgs_ids[example_data[NUMBER_OF_COMMON_EXAMPLES:] == i]])
+        user_id = USERS[0] if i==1 else USERS[1]
+        
+        while True:
+            try:
+                embeds = sybil(img_ids, user_id, transfomation)
+                break
+            except Exception as e:
+                time.sleep(0.5)
 
-    common_embeds = embeds[:NUMBER_OF_COMMON_EXAMPLES]
-    other_embeds = embeds[NUMBER_OF_COMMON_EXAMPLES:]
+        common_embeds = embeds[:NUMBER_OF_COMMON_EXAMPLES]
+        other_embeds = embeds[NUMBER_OF_COMMON_EXAMPLES:]
 
-    # add rows to the output dataframe
-    for id, embed in zip(img_ids[:NUMBER_OF_COMMON_EXAMPLES], common_embeds):
-        df_common_embeds.loc[len(df_common_embeds), :] = [id, embed, i]
-
-
-    # add rows of not common images
-    for id, embed in zip(img_ids[NUMBER_OF_COMMON_EXAMPLES:], other_embeds):
-        df_other_embeds.loc[len(df_other_embeds), :] = [id, embed, i] 
-    
-    sybil_reset(TRANSFORMATIONS[1], user_id)
+        # add rows to the output dataframe
+        for id, embed in zip(img_ids[:NUMBER_OF_COMMON_EXAMPLES], common_embeds):
+            df_common_embeds.loc[len(df_common_embeds), :] = [id, embed, i]
 
 
-df_other_embeds.to_csv(f"other_embeddings_{TRANSFORMATIONS[1]}.csv", index=False)
-df_common_embeds.to_csv(f"common_embeddings_{TRANSFORMATIONS[1]}.csv", index=False)
+        # add rows of not common images
+        for id, embed in zip(img_ids[NUMBER_OF_COMMON_EXAMPLES:], other_embeds):
+            df_other_embeds.loc[len(df_other_embeds), :] = [id, embed, i] 
+        
+        sybil_reset(transfomation, user_id)
+
+
+    df_other_embeds.to_csv(f"other_embeddings_{transfomation}.csv", index=False)
+    df_common_embeds.to_csv(f"common_embeddings_{transfomation}.csv", index=False)
