@@ -1,11 +1,11 @@
 import requests
 
 def sybil_attack_reset():
-    SERVER_URL = "[paste server url here]"
+    SERVER_URL="http://34.71.138.79:9090/"
     ENDPOINT = "/sybil/reset"
     URL = SERVER_URL + ENDPOINT
 
-    TEAM_TOKEN = "[paste your team token here]"
+    TEAM_TOKEN = "Er6b7skOyWBCrtZC"
 
     response = requests.post(
         URL, headers={"token": TEAM_TOKEN}
