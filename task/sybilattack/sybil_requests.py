@@ -144,3 +144,4 @@ def model_stealing_reset():
 # model_stealing("testing/test.png")
 # model_stealing_submit("testing/example_submission.onnx")
 # model_stealing_reset()
+# model_stealing_reset()
