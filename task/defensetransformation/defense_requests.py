@@ -4,7 +4,7 @@ import numpy as np
 SERVER_URL="http://34.71.138.79:9090"
 TEAM_TOKEN="Er6b7skOyWBCrtZC"
 
-def evaluate(eval_clf_performance: function, eval_mapper_performance: function, args, BASE_ACCURACY: float, ACCURACY_DROP_THRESHOLD: float):
+def evaluate(eval_clf_performance, eval_mapper_performance, args, BASE_ACCURACY: float, ACCURACY_DROP_THRESHOLD: float):
     accuracy = eval_clf_performance(args)
     cosine_distance = eval_mapper_performance(args)
 
@@ -45,4 +45,5 @@ if __name__ == "__main__":
     print("You can do it!")
     print("Believe in yourself and keep pushing forward!")
     print("Success is just around the corner!")
+    defense_submit("task/defensetransformation/model/defense_8.npz")
     # defense_submit("data/ExampleDefenseTransformationSubmit.npz")
